@@ -3,152 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Graficador f(x) y g(x) — con operaciones</title>
+<title>Gráficas de f(x) y g(x)</title>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-  :root {
-    --primary: #2563eb;
-    --secondary: #f97316;
-    --result: #10b981;
-    --bg: #f5f7fa;
-    --card: #ffffff;
-    --text: #111827;
-  }
-
   body {
-    font-family: 'Poppins', 'Segoe UI', Roboto, Arial, sans-serif;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #e0e7ff, #f0f9ff);
     margin: 0;
-    padding: 20px;
-    color: var(--text);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+    padding: 30px;
+    color: #111827;
   }
 
   h1 {
-    color: white;
-    margin-bottom: 15px;
     text-align: center;
-    letter-spacing: 0.5px;
-  }
-
-  .card {
-    background: var(--card);
-    border-radius: 15px;
-    padding: 20px;
-    max-width: 1000px;
-    width: 95%;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    animation: fadeIn 1s ease-in-out;
+    color: #1e3a8a;
+    margin-bottom: 10px;
   }
 
   .controls {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
   }
 
   label {
     font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
   }
 
   input, select {
     padding: 6px 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #cbd5e1;
     border-radius: 8px;
     font-size: 15px;
+    width: 120px;
     text-align: center;
   }
 
-  input { width: 80px; }
-  select { width: 180px; }
+  select { width: 150px; }
 
   button {
-    background: var(--primary);
+    background: #2563eb;
     color: white;
     border: none;
     padding: 10px 18px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.2s;
   }
 
   button:hover {
-    background: var(--secondary);
-    transform: translateY(-2px);
+    background: #1e40af;
   }
 
   canvas {
     width: 100% !important;
-    height: 450px !important;
+    height: 400px !important;
+    margin-top: 20px;
   }
 
   footer {
-    margin-top: 20px;
-    color: #e5e7eb;
-    font-size: 14px;
     text-align: center;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    margin-top: 15px;
+    color: #6b7280;
+    font-size: 14px;
   }
 </style>
 </head>
 <body>
 
-<h1>📊 Graficador de Funciones y Operaciones</h1>
+<h1>Gráficas de f(x) = x³ - 1 y g(x) = x² + x + 1</h1>
 
-<div class="card">
-  <div class="controls">
-    <div>
-      <label>Intervalo f(x):</label><br>
-      De <input type="number" id="aF" value="2" step="0.1"> a 
-      <input type="number" id="bF" value="5" step="0.1">
-    </div>
-
-    <div>
-      <label>Intervalo g(x):</label><br>
-      De <input type="number" id="aG" value="1" step="0.1"> a 
-      <input type="number" id="bG" value="4" step="0.1">
-    </div>
-
-    <div>
-      <label>Operación:</label><br>
-      <select id="operacion">
-        <option value="original">f(x) y g(x)</option>
-        <option value="suma">f(x) + g(x)</option>
-        <option value="resta">f(x) - g(x)</option>
-        <option value="multiplicacion">f(x) × g(x)</option>
-        <option value="division">f(x) ÷ g(x)</option>
-      </select>
-    </div>
-
-    <div style="align-self: end;">
-      <button onclick="graficar()">Graficar</button>
-    </div>
+<div class="controls">
+  <div>
+    <label>Intervalo f(x):</label>
+    De <input type="number" id="aF" value="2" step="0.1"> a 
+    <input type="number" id="bF" value="5" step="0.1">
   </div>
-
-  <canvas id="grafica"></canvas>
+  <div>
+    <label>Intervalo g(x):</label>
+    De <input type="number" id="aG" value="1" step="0.1"> a 
+    <input type="number" id="bG" value="4" step="0.1">
+  </div>
+  <div>
+    <label>Operación:</label>
+    <select id="operacion">
+      <option value="ninguna">Ninguna</option>
+      <option value="suma">Suma (+)</option>
+      <option value="resta">Resta (−)</option>
+      <option value="multiplicacion">Multiplicación (×)</option>
+      <option value="division">División (÷)</option>
+    </select>
+  </div>
+  <div>
+    <label>Valor:</label>
+    <input type="number" id="valor" value="2" step="0.1">
+  </div>
+  <div style="align-self: end;">
+    <button onclick="graficar()">Graficar</button>
+  </div>
 </div>
 
-<footer>Modifica los intervalos o la operación para ver los cambios en tiempo real.</footer>
+<canvas id="grafica"></canvas>
+
+<footer>Visualiza f(x), g(x) y sus transformaciones según la operación elegida.</footer>
 
 <script>
-  // Definir funciones base
+  // Funciones base
   function f(x) { return Math.pow(x, 3) - 1; }
   function g(x) { return Math.pow(x, 2) + x + 1; }
 
-  // Crear rango de valores
   function linspace(a, b, n = 200) {
     const arr = [];
     const step = (b - a) / (n - 1);
@@ -164,101 +140,107 @@
     const aG = parseFloat(document.getElementById('aG').value);
     const bG = parseFloat(document.getElementById('bG').value);
     const operacion = document.getElementById('operacion').value;
+    const valor = parseFloat(document.getElementById('valor').value);
 
     const xF = linspace(aF, bF);
     const xG = linspace(aG, bG);
     const yF = xF.map(f);
     const yG = xG.map(g);
 
-    // Crear rango común para operaciones
-    const xCommon = linspace(Math.max(aF, aG), Math.min(bF, bG));
-    const yFc = xCommon.map(f);
-    const yGc = xCommon.map(g);
-    let resultado = [];
+    // Aplicar transformación individual a cada función
+    let yFmod = [], yGmod = [];
 
     switch (operacion) {
       case "suma":
-        resultado = yFc.map((v, i) => v + yGc[i]);
+        yFmod = yF.map(y => y + valor);
+        yGmod = yG.map(y => y + valor);
         break;
       case "resta":
-        resultado = yFc.map((v, i) => v - yGc[i]);
+        yFmod = yF.map(y => y - valor);
+        yGmod = yG.map(y => y - valor);
         break;
       case "multiplicacion":
-        resultado = yFc.map((v, i) => v * yGc[i]);
+        yFmod = yF.map(y => y * valor);
+        yGmod = yG.map(y => y * valor);
         break;
       case "division":
-        resultado = yFc.map((v, i) => yGc[i] !== 0 ? v / yGc[i] : NaN);
+        yFmod = yF.map(y => valor !== 0 ? y / valor : NaN);
+        yGmod = yG.map(y => valor !== 0 ? y / valor : NaN);
         break;
-    }
-
-    const datasets = [
-      {
-        label: `f(x) = x³ - 1 [${aF}, ${bF}]`,
-        data: xF.map((x, i) => ({ x, y: yF[i] })),
-        borderColor: "#2563eb",
-        tension: 0.25,
-        fill: false,
-        pointRadius: 0,
-      },
-      {
-        label: `g(x) = x² + x + 1 [${aG}, ${bG}]`,
-        data: xG.map((x, i) => ({ x, y: yG[i] })),
-        borderColor: "#f97316",
-        tension: 0.25,
-        fill: false,
-        pointRadius: 0,
-        borderDash: [6, 3]
-      }
-    ];
-
-    let titulo = "Funciones f(x) y g(x)";
-
-    if (operacion !== "original") {
-      datasets.push({
-        label: `${operacion[0].toUpperCase() + operacion.slice(1)} de f(x) y g(x)`,
-        data: xCommon.map((x, i) => ({ x, y: resultado[i] })),
-        borderColor: "#10b981",
-        borderWidth: 2,
-        tension: 0.25,
-        fill: false,
-        pointRadius: 0
-      });
-      titulo = `Operación: f(x) ${simboloOperacion(operacion)} g(x)`;
+      default:
+        yFmod = [...yF];
+        yGmod = [...yG];
     }
 
     if (chart) chart.destroy();
 
     chart = new Chart(document.getElementById("grafica"), {
       type: "line",
-      data: { datasets },
+      data: {
+        datasets: [
+          {
+            label: "f(x) original",
+            data: xF.map((x, i) => ({ x, y: yF[i] })),
+            borderColor: "#2563eb",
+            borderWidth: 2,
+            tension: 0.25,
+            pointRadius: 0
+          },
+          {
+            label: "f(x) transformada",
+            data: xF.map((x, i) => ({ x, y: yFmod[i] })),
+            borderColor: "#60a5fa",
+            borderDash: [5, 4],
+            borderWidth: 2,
+            tension: 0.25,
+            pointRadius: 0
+          },
+          {
+            label: "g(x) original",
+            data: xG.map((x, i) => ({ x, y: yG[i] })),
+            borderColor: "#f97316",
+            borderWidth: 2,
+            tension: 0.25,
+            pointRadius: 0
+          },
+          {
+            label: "g(x) transformada",
+            data: xG.map((x, i) => ({ x, y: yGmod[i] })),
+            borderColor: "#fdba74",
+            borderDash: [5, 4],
+            borderWidth: 2,
+            tension: 0.25,
+            pointRadius: 0
+          }
+        ]
+      },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        parsing: { xAxisKey: "x", yAxisKey: "y" },
         plugins: {
-          title: { display: true, text: titulo, font: { size: 18 } },
-          legend: { position: "bottom" }
+          title: {
+            display: true,
+            text: `Transformación: ${operacion === "ninguna" ? "Ninguna" : operacion + " con " + valor}`,
+            font: { size: 18 }
+          },
+          legend: { position: "top" }
         },
         scales: {
-          x: { type: 'linear', title: { display: true, text: "x" } },
-          y: { title: { display: true, text: "y" } }
+          x: {
+            type: "linear",
+            title: { display: true, text: "x" }
+          },
+          y: {
+            title: { display: true, text: "y" }
+          }
         }
       }
     });
   }
 
-  function simboloOperacion(op) {
-    switch (op) {
-      case "suma": return "+";
-      case "resta": return "−";
-      case "multiplicacion": return "×";
-      case "division": return "÷";
-      default: return "";
-    }
-  }
-
-  // Graficar al cargar
+  // Graficar al inicio
   graficar();
 </script>
+
 </body>
 </html>
