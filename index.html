@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gráficas de f(x) y g(x)</title>
+<title>Gráficas de Funciones</title>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -118,10 +118,10 @@
 
 <canvas id="grafica"></canvas>
 
-<footer>Visualiza f(x), g(x) y sus transformaciones según la operación elegida.</footer>
+<footer>Cambia los intervalos, la operación y el valor para ver cómo varían f(x) y g(x).</footer>
 
 <script>
-  // Funciones base
+  // Definición de funciones base
   function f(x) { return Math.pow(x, 3) - 1; }
   function g(x) { return Math.pow(x, 2) + x + 1; }
 
@@ -144,32 +144,31 @@
 
     const xF = linspace(aF, bF);
     const xG = linspace(aG, bG);
-    const yF = xF.map(f);
-    const yG = xG.map(g);
 
-    // Aplicar transformación individual a cada función
-    let yFmod = [], yGmod = [];
+    let yF = xF.map(f);
+    let yG = xG.map(g);
 
+    // Aplicar operación individual a cada función
     switch (operacion) {
       case "suma":
-        yFmod = yF.map(y => y + valor);
-        yGmod = yG.map(y => y + valor);
+        yF = yF.map(y => y + valor);
+        yG = yG.map(y => y + valor);
         break;
       case "resta":
-        yFmod = yF.map(y => y - valor);
-        yGmod = yG.map(y => y - valor);
+        yF = yF.map(y => y - valor);
+        yG = yG.map(y => y - valor);
         break;
       case "multiplicacion":
-        yFmod = yF.map(y => y * valor);
-        yGmod = yG.map(y => y * valor);
+        yF = yF.map(y => y * valor);
+        yG = yG.map(y => y * valor);
         break;
       case "division":
-        yFmod = yF.map(y => valor !== 0 ? y / valor : NaN);
-        yGmod = yG.map(y => valor !== 0 ? y / valor : NaN);
+        yF = yF.map(y => valor !== 0 ? y / valor : NaN);
+        yG = yG.map(y => valor !== 0 ? y / valor : NaN);
         break;
       default:
-        yFmod = [...yF];
-        yGmod = [...yG];
+        // Ninguna operación
+        break;
     }
 
     if (chart) chart.destroy();
@@ -179,7 +178,7 @@
       data: {
         datasets: [
           {
-            label: "f(x) original",
+            label: "f(x)",
             data: xF.map((x, i) => ({ x, y: yF[i] })),
             borderColor: "#2563eb",
             borderWidth: 2,
@@ -187,27 +186,9 @@
             pointRadius: 0
           },
           {
-            label: "f(x) transformada",
-            data: xF.map((x, i) => ({ x, y: yFmod[i] })),
-            borderColor: "#60a5fa",
-            borderDash: [5, 4],
-            borderWidth: 2,
-            tension: 0.25,
-            pointRadius: 0
-          },
-          {
-            label: "g(x) original",
+            label: "g(x)",
             data: xG.map((x, i) => ({ x, y: yG[i] })),
             borderColor: "#f97316",
-            borderWidth: 2,
-            tension: 0.25,
-            pointRadius: 0
-          },
-          {
-            label: "g(x) transformada",
-            data: xG.map((x, i) => ({ x, y: yGmod[i] })),
-            borderColor: "#fdba74",
-            borderDash: [5, 4],
             borderWidth: 2,
             tension: 0.25,
             pointRadius: 0
@@ -220,7 +201,9 @@
         plugins: {
           title: {
             display: true,
-            text: `Transformación: ${operacion === "ninguna" ? "Ninguna" : operacion + " con " + valor}`,
+            text: operacion === "ninguna"
+              ? "Gráficas originales de f(x) y g(x)"
+              : `Operación: ${operacion} con ${valor}`,
             font: { size: 18 }
           },
           legend: { position: "top" }
@@ -238,7 +221,7 @@
     });
   }
 
-  // Graficar al inicio
+  // Graficar al cargar la página
   graficar();
 </script>
 
